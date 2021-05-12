@@ -67,7 +67,27 @@ contract Testament {
         onlyOwner
         onlyAlive
     {
+        require(
+            msg.value == amount,
+            "Testament: you need to provide the same amount of ether"
+        );
         _beneficiaries[account] += amount;
         emit Bequeathed(account, amount);
+    }
+
+    function alive() public view returns (bool) {
+        return !_isDead;
+    }
+
+    function total() public view returns (uint256) {
+        return address(this).balance;
+    }
+
+    function doctor() public view returns (address) {
+        return _doctor;
+    }
+
+    function benefactor(address account) public view returns (uint256) {
+        return _beneficiaries[account];
     }
 }
